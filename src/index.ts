@@ -5,9 +5,8 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import mongoose from "mongoose";
-
-const MONGODB_URI =
-  "mongodb+srv://fedsiyasser:xdkOgpXGrEHaoMZb@cluster0.wwlljlx.mongodb.net/?retryWrites=true&w=majority";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 app.use(
@@ -22,12 +21,13 @@ app.use(bodyParser.json());
 
 const server = http.createServer(app);
 
-server.listen(8000, () => {
+server.listen(process.env.PORT, () => {
+  console.log(`Server connected with port ${process.env.PORT}`);
   console.log("Server listening on https://localhost:8000/");
 });
 
 async function connection() {
-  await mongoose.connect(MONGODB_URI);
+  await mongoose.connect(process.env.MONGODB_URI);
   mongoose.Promise = Promise;
   mongoose.connection.on("error", (error: Error) => {
     console.log(error);

@@ -39,5 +39,5 @@ async function connection() {
     console.log("Error while connection to database!");
   }
 }
-
 connection();
+

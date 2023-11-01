@@ -6,6 +6,7 @@ import compression from "compression";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import router from "./router";
 dotenv.config();
 
 const app = express();
@@ -41,3 +42,4 @@ async function connection() {
 }
 connection();
 
+app.use("/", router());

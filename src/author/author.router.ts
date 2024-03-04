@@ -50,3 +50,37 @@ authorRouter.post(
     }
   }
 );
+
+// PUT: Updating an Author
+// Params: firstName, lastName
+authorRouter.put(
+  "/:id",
+  body("firstName").isString(),
+  body("lastName").isString(),
+  async (request: Request, response: Response) => {
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+      return response.status(400).json({ errors: errors.array() });
+    }
+
+    const id: number = parseInt(request.params.id, 10);
+    try {
+      const author = request.body;
+      const updateAuhor = await AuthorService.updateAuthor(author, id);
+      return response.status(200).json(updateAuhor);
+    } catch (error: any) {
+      return response.status(500).json(error.message);
+    }
+  }
+);
+
+// DELETE: Delete an author based on the id
+authorRouter.delete(":/id", async (request: Request, response: Response) => {
+  const id: number = parseInt(request.params.id, 10);
+  try {
+    await AuthorService.deleteAuthor(id);
+    return response.status(204).json("Author has been successfully deleted");
+  } catch (error: any) {
+    return response.status(500).json(error.message);
+  }
+});
